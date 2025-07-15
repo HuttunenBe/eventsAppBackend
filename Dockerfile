@@ -9,6 +9,9 @@ RUN apt-get update && apt-get install -y \
 # Enable Apache mod_rewrite for Laravel routing
 RUN a2enmod rewrite
 
+# Change Apache document root to public folder
+RUN sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/html/public|' /etc/apache2/sites-available/000-default.conf
+
 # Set working directory
 WORKDIR /var/www/html
 
@@ -24,10 +27,11 @@ RUN composer install --no-dev --optimize-autoloader
 # Fix permissions for storage and cache directories
 RUN chown -R www-data:www-data storage bootstrap/cache
 
+# Set safe directory for git to avoid warnings (optional)
+RUN git config --global --add safe.directory /var/www/html
+
 # Expose port 80 to the outside world
 EXPOSE 80
 
 # Run Apache in the foreground
 CMD ["apache2-foreground"]
-
-RUN git config --global --add safe.directory /var/www/html
