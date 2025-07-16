@@ -5,7 +5,7 @@ return [
     'allowed_methods' => ['*'],
     'allowed_origins' => [
         'http://localhost:5173',
-        'https://your-frontend.onrender.com',
+        'https://eventsapp-1ky4.onrender.com',
     ],
 
     'allowed_origins_patterns' => [],
